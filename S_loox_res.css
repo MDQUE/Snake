@@ -1,0 +1,33 @@
+GtkWindow {
+	background-color :  #FF5753;
+}
+
+
+
+box#SETTINGSBOX {
+  color : #0518B9;
+  border-style : ridge;
+  border-width : 4px;
+  border-color : #313131;
+  background-color : #212131;
+}
+
+box#PLAYBOX {
+  color : blue; 
+  background-color : #2d2c52;
+}
+
+box#SCOREBOX {
+  color : red;
+  background-color : #282727;
+  border-style : groove;
+  border-color : #111111;
+  border-width : 4px;
+  font-size : 50px;
+  font-family : "Times New Roman", Times, serif;
+}
+
+/*button#SETTINGSPIN {*/
+/*  padding-top : 10px;*/
+/*  padding-left : 10px;*/
+/*}*/
