@@ -56,11 +56,13 @@ int main (int argc, char **argv)
     g_printf("%p\n", a->msg);
 #endif
   a->s = g_malloc(sizeof(SideSettigs));
+  a->t = g_malloc(sizeof(Speeder));
 	int status;
 
 	a->App = gtk_application_new ("org.gtk.minimal", G_APPLICATION_FLAGS_NONE);
 	g_signal_connect (a->App, "activate", G_CALLBACK (activate), (gpointer) a);
 	status = g_application_run (G_APPLICATION (a->App), argc, argv);
+  g_free (a->t);
   g_free (a->s);
   g_free (a->msg);
 	g_free (a);

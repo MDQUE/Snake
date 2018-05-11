@@ -34,6 +34,12 @@ typedef struct
   GtkWidget *StrtBtn;
 } SideSettigs;
 
+//Timer
+typedef struct
+{
+  pid_t Tpid;
+} Speeder;
+
 
 //Popup
 typedef struct
@@ -55,6 +61,7 @@ typedef struct
   GtkStyleProvider *provider;
   Notifications *msg;
   SideSettigs *s;
+  Speeder *t;
 } mainwidget;
 
 
@@ -64,5 +71,6 @@ typedef struct
 int side_menu_setup(gpointer data);
 void something_fails(gpointer data);
 void Starter(GtkWidget *window, gpointer data);
+void Speedopt(gpointer data);
 
 #endif

@@ -3,12 +3,21 @@
 void Starter(GtkWidget *window, gpointer data)
 {
   mainwidget *a = (mainwidget *)data;
-    #if DEBUG
+#if DEBUG
   g_printf("%p\n", a);
-    g_printf("%p\n", a->msg);
-    g_printf("%p\n", a->s->StrtBtn);
+  g_printf("%p\n", a->msg);
+  g_printf("%p\n", a->s->StrtBtn);
 #endif
-  gtk_button_set_label(GTK_BUTTON(a->s->StrtBtn), "pause");
+  if (g_strcmp0(gtk_button_get_label(GTK_BUTTON(a->s->StrtBtn)) ,"Pause") != 0)
+  {
+    gtk_button_set_label(GTK_BUTTON(a->s->StrtBtn), "Pause");
+    Speedopt(a);
+  }
+  else
+  {
+    gtk_button_set_label(GTK_BUTTON(a->s->StrtBtn), "Start");
+    kill(a->t->Tpid, SIGKILL);
+  }
 }
 
 int side_menu_setup(gpointer data)
