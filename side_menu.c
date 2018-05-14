@@ -1,5 +1,13 @@
 #include "Superlib.h"
 
+
+/******************************************************************************************************/
+
+/*                                            CALLBACKS                                               */
+
+/******************************************************************************************************/
+
+
 void Starter(GtkWidget *window, gpointer data)
 {
   mainwidget *a = (mainwidget *)data;
@@ -16,9 +24,35 @@ void Starter(GtkWidget *window, gpointer data)
   else
   {
     gtk_button_set_label(GTK_BUTTON(a->s->StrtBtn), "Start");
-    kill(a->t->Tpid, SIGKILL);
+    a->t->Endflag = 1;
+    timer_delete(TimerID);
   }
 }
+
+void Refresh_Adjust(GtkWidget *window, gpointer data)
+{
+  mainwidget *a = (mainwidget *)data;
+  
+  int temp_speed;
+  float refreshrate;
+
+  temp_speed = gtk_spin_button_get_value_as_int(GTK_SPIN_BUTTON(a->s->S_Speed));
+  refreshrate = 60 / temp_speed;
+  
+  its.it_value.tv_sec = (int) (refreshrate-fmod(refreshrate, 1));
+  its.it_value.tv_nsec = (long int)(fmod(refreshrate, 1) * 10000000000);
+  its.it_interval.tv_sec = its.it_value.tv_sec;
+  its.it_interval.tv_nsec = its.it_value.tv_nsec;
+
+  timer_settime(TimerID, 0, &its, NULL);
+}
+
+/******************************************************************************************************/
+
+/*                                                GUI                                                 */
+
+/******************************************************************************************************/
+
 
 int side_menu_setup(gpointer data)
 {
@@ -28,16 +62,18 @@ int side_menu_setup(gpointer data)
   a->sidegrid = gtk_grid_new();
   gtk_box_pack_start(GTK_BOX(a->settingsbox), GTK_WIDGET(a->sidegrid),TRUE,TRUE,0);
   gtk_grid_set_column_homogeneous(GTK_GRID(a->sidegrid), TRUE);
-  gtk_grid_set_row_spacing(GTK_GRID(a->sidegrid), 15);
+  gtk_grid_set_row_homogeneous(GTK_GRID(a->sidegrid), TRUE);
+//  gtk_grid_set_row_spacing(GTK_GRID(a->sidegrid), 15);
   
   //Speed control handler
   a->s->S_Speed_L = gtk_label_new("Speed :");
   gtk_widget_set_hexpand(a->s->S_Speed_L, TRUE);
-  a->s->S_Speed = gtk_spin_button_new_with_range(6,64,1);
+  a->s->S_Speed = gtk_spin_button_new_with_range(6,99,1);
   gtk_spin_button_set_value(GTK_SPIN_BUTTON(a->s->S_Speed), 12);
   gtk_grid_attach(GTK_GRID(a->sidegrid),GTK_WIDGET(a->s->S_Speed_L),0,0,2,1);
   gtk_grid_attach(GTK_GRID(a->sidegrid),GTK_WIDGET(a->s->S_Speed),2,0,1,1);
   gtk_widget_set_name(GTK_WIDGET(a->s->S_Speed), "SETTINGSPIN");
+  g_signal_connect(GTK_WIDGET(a->s->S_Speed), "value-changed", G_CALLBACK (Refresh_Adjust), (gpointer *)a);
   
   //gamefield size control
   a->s->G_FieldSize_L = gtk_label_new("Field Scale (Next Game Only)");

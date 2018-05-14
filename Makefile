@@ -44,7 +44,7 @@ RESOURCE = SnakeEvo_res
 # LDFLAGS   - linker flags, e.g. -lm to link with the math library
 
 CXX      = gcc
-CXXFLAGS = `pkg-config --cflags --libs gtk+-3.0` -Wall -g
+CXXFLAGS = `pkg-config --cflags --libs gtk+-3.0` -Wall -g -lrt
 CPPFLAGS = -I.
 LDFLAGS  = -lm
 
