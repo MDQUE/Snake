@@ -8,7 +8,7 @@
 #include <sys/time.h>
 #include <signal.h>
 #include <gtk/gtk.h>
-#include <glib/gprintf.h>
+#include <glib.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
@@ -71,6 +71,8 @@ typedef struct
   GtkWidget *sidegrid;
   GtkWidget *playbox;
   GtkWidget *settingsbox;
+  GtkWidget *CairoBasic;
+  cairo_t* cr;
   GtkStyleContext *context;
   GtkStyleProvider *provider;
   Notifications *msg;
@@ -87,5 +89,7 @@ void something_fails(gpointer data);
 void Starter(GtkWidget *window, gpointer data);
 void Speedopt(gpointer data);
 void Refresh_Adjust(GtkWidget *window, gpointer data);
+void DrawSetup(gpointer data);
+
 
 #endif
