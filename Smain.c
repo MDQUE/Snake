@@ -26,15 +26,9 @@ static void activate (GtkApplication *app, gpointer data, gpointer user_data)
   gtk_grid_attach(GTK_GRID(a->basicgrid), a->playbox, 0,0,1,1);
   gtk_grid_attach(GTK_GRID(a->basicgrid), a->settingsbox,1,0,1,1);
   int check = side_menu_setup(a);
+  DrawSetup(a);
   
-  //Some failing check code
-  
-/*  if (check == -1)*/
-/*  {*/
-/*    something_fails(a);*/
-/*    sleep(3);*/
-/*    gtk_window_set_destroy_with_parent(GTK_WINDOW(a->window), TRUE);*/
-/*  }*/
+
 
   //format window output via CSS
   a->provider = GTK_STYLE_PROVIDER (gtk_css_provider_new ());
@@ -42,6 +36,15 @@ static void activate (GtkApplication *app, gpointer data, gpointer user_data)
   gtk_style_context_add_provider_for_screen(gdk_screen_get_default(), GTK_STYLE_PROVIDER(a->provider), GTK_STYLE_PROVIDER_PRIORITY_USER);
   
 	gtk_widget_show_all (GTK_WIDGET (a->window));
+  
+  //Some failing check code
+  if (check != 1)
+  {
+    something_fails(a);
+    
+//    gtk_window_set_destroy_with_parent(GTK_WINDOW(a->window), TRUE);
+  }
+
 }
 
 

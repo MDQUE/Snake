@@ -1,15 +1,24 @@
 #ifndef SUPERLIB_H
 #define SUPERLIB_H
 
-#define DEBUG 1
+#define DEBUG 0
+#define SIG SIGRTMIN+0
 
 #include <time.h>
+#include <sys/time.h>
+#include <signal.h>
 #include <gtk/gtk.h>
-#include <glib/gprintf.h>
+#include <glib.h>
 #include <stdlib.h>
 #include <stdio.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <math.h>
+
+
+//Global Shit
+timer_t TimerID;
+
 
 //Sidebar
 typedef struct
@@ -34,10 +43,15 @@ typedef struct
   GtkWidget *StrtBtn;
 } SideSettigs;
 
+//Timer_refresh dependencies
+struct itimerspec its;
+
 //Timer
 typedef struct
 {
   pid_t Tpid;
+  gint Endflag;
+  gint Refresh_Signal;
 } Speeder;
 
 
@@ -57,6 +71,8 @@ typedef struct
   GtkWidget *sidegrid;
   GtkWidget *playbox;
   GtkWidget *settingsbox;
+  GtkWidget *CairoBasic;
+  cairo_t* cr;
   GtkStyleContext *context;
   GtkStyleProvider *provider;
   Notifications *msg;
@@ -72,5 +88,8 @@ int side_menu_setup(gpointer data);
 void something_fails(gpointer data);
 void Starter(GtkWidget *window, gpointer data);
 void Speedopt(gpointer data);
+void Refresh_Adjust(GtkWidget *window, gpointer data);
+void DrawSetup(gpointer data);
+
 
 #endif
